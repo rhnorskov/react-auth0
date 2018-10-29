@@ -2,9 +2,11 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, Redirect, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-
+import { WebAuth } from "auth0-js";
 import { Provider, Consumer, Callback } from "../../src";
 import AUTH0_CONFIG from "../../auth0_config.json";
+
+const webAuth = new WebAuth(AUTH0_CONFIG);
 
 const Home = () => (
   <Consumer>
@@ -147,7 +149,7 @@ function Demo() {
 
 ReactDOM.render(
   <BrowserRouter>
-    <Provider config={AUTH0_CONFIG}>
+    <Provider webAuth={webAuth}>
       <Demo />
     </Provider>
   </BrowserRouter>,

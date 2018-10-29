@@ -6,7 +6,7 @@ import Auth0 from "./Auth0";
 class Provider extends React.Component {
   state = {
     value: {
-      webAuth: new WebAuth(this.props.config),
+      webAuth: this.props.webAuth,
       isAuthenticated: Auth0.isAuthenticated(),
       verifyAuthentication: () => {
         const isAuthenticated = Auth0.isAuthenticated();
