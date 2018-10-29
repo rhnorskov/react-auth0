@@ -1,12 +1,15 @@
 module.exports = {
-  type: 'react-component',
+  type: "react-component",
   npm: {
     esModules: true,
     umd: {
-      global: 'ReactAuth0',
+      global: "ReactAuth0",
       externals: {
-        react: 'React'
+        react: "React"
       }
     }
+  },
+  devServer: {
+    https: true
   }
-}
+};

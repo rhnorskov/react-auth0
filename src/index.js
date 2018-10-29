@@ -1,9 +1,4 @@
-import React, {Component} from 'react'
-
-export default class extends Component {
-  render() {
-    return <div>
-      <h2>Welcome to React components</h2>
-    </div>
-  }
-}
+export { default as withAuth0 } from "./withAuth0";
+export { default as Provider } from "./Provider";
+export { default as Consumer } from "./Consumer";
+export { default as Callback } from "./Callback";
