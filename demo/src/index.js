@@ -3,7 +3,7 @@ import ReactDOM from "react-dom";
 import { BrowserRouter, Switch, Route, Redirect, Link } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
 import { WebAuth } from "auth0-js";
-import { Provider, Consumer, Callback } from "../../src";
+import { Provider, Consumer, Handler } from "../../src";
 import AUTH0_CONFIG from "../../auth0_config.json";
 
 const webAuth = new WebAuth(AUTH0_CONFIG);
@@ -129,7 +129,7 @@ function Demo() {
       <Route
         path="/callback"
         render={({ location: { state } }) => (
-          <Callback>
+          <Handler>
             {(error, result) => {
               if (error) return <Redirect to="/signin" />;
               if (
@@ -140,7 +140,7 @@ function Demo() {
 
               return <Redirect to="/account" />;
             }}
-          </Callback>
+          </Handler>
         )}
       />
     </Switch>

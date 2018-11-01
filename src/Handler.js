@@ -2,7 +2,7 @@ import React from "react";
 import Auth0 from "./Auth0";
 import Context from "./Context";
 
-class Callback extends React.Component {
+class Handler extends React.Component {
   static contextType = Context;
 
   state = {
@@ -34,4 +34,4 @@ class Callback extends React.Component {
   }
 }
 
-export default Callback;
+export default Handler;

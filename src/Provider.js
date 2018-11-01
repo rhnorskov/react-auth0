@@ -1,5 +1,4 @@
 import React from "react";
-import { WebAuth } from "auth0-js";
 import Context from "./Context";
 import Auth0 from "./Auth0";
 
