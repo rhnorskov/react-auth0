@@ -1,83 +1,83 @@
 import React from "react";
-import Auth0 from "./Auth0";
-
 import Context from "./Context";
 
 class Consumer extends React.Component {
   static contextType = Context;
 
-  signUp = (email, password, options = {}) => {
-    return new Promise((resolve, reject) => {
-      this.context.webAuth.signup(
-        {
-          email,
-          password,
-          connection: "Username-Password-Authentication",
-          ...options
-        },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        }
-      );
-    });
-  };
+  constructor(props) {
+    super(props);
 
-  signIn = (email, password, options = {}) => {
-    return new Promise((resolve, reject) => {
-      this.context.webAuth.login(
-        {
-          email,
-          password,
-          realm: "Username-Password-Authentication",
-          ...options
-        },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        }
-      );
-    });
-  };
+    this.api = {
+      webAuth: this.props.context.webAuth,
 
-  signOut = () => {
-    localStorage.removeItem("id_token");
-    localStorage.removeItem("access_token");
-    localStorage.removeItem("expires_at");
-    this.context.verifyAuthentication();
-  };
+      signUp: (email, password, options = {}) =>
+        new Promise((resolve, reject) => {
+          this.props.context.webAuth.signup(
+            {
+              email,
+              password,
+              connection: "Username-Password-Authentication",
+              ...options
+            },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          );
+        }),
 
-  authorize = (connection, options = {}) => {
-    return new Promise((resolve, reject) => {
-      this.context.webAuth.login(
-        {
-          connection,
-          ...options
-        },
-        (error, result) => {
-          if (error) return reject(error);
-          resolve(result);
-        }
-      );
-    });
-  };
+      signIn: (email, password, options = {}) =>
+        new Promise((resolve, reject) => {
+          this.props.context.webAuth.login(
+            {
+              email,
+              password,
+              realm: "Username-Password-Authentication",
+              ...options
+            },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          );
+        }),
 
-  render() {
-    const api = {
-      signUp: this.signUp,
-      signIn: this.signIn,
-      signOut: this.signOut,
-      authorize: this.authorize
+      signOut: () => {
+        localStorage.removeItem("id_token");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("expires_at");
+        this.props.context.verifyAuthentication();
+      },
+
+      authorize: (connection, options = {}) =>
+        new Promise((resolve, reject) => {
+          this.webAuth.login(
+            {
+              connection,
+              ...options
+            },
+            (error, result) => {
+              if (error) return reject(error);
+              resolve(result);
+            }
+          );
+        })
     };
 
-    Object.defineProperty(api, "isAuthenticated", {
+    Object.defineProperty(this.api, "authenticated", {
       get: () => {
-        return this.context.verifyAuthentication();
+        return this.props.context.verifyAuthentication();
       }
     });
+  }
 
-    return this.props.children(api);
+  render() {
+    return this.props.children(this.api);
   }
 }
 
-export default Consumer;
+export default props => (
+  <Context.Consumer>
+    {context => <Consumer {...props} context={context} />}
+  </Context.Consumer>
+);

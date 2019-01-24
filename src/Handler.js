@@ -1,5 +1,4 @@
 import React from "react";
-import Auth0 from "./Auth0";
 import Context from "./Context";
 
 class Handler extends React.Component {
@@ -14,7 +13,12 @@ class Handler extends React.Component {
     this.context.webAuth.parseHash((error = null, result = null) => {
       if (!error && result) {
         const { idToken, accessToken, expiresIn } = result;
-        Auth0.setSession(idToken, accessToken, expiresIn);
+        localStorage.setItem("id_token", idToken);
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem(
+          "expires_at",
+          new Date().getTime() + expiresIn * 1000
+        );
         this.context.verifyAuthentication();
       }
 

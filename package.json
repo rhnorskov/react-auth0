@@ -1,6 +1,6 @@
 {
   "name": "react-auth0",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "React components for handling auth0",
   "main": "lib/index.js",
   "module": "es/index.js",
@@ -20,11 +20,11 @@
     "test:watch": "nwb test-react --server"
   },
   "peerDependencies": {
-    "react": "16.3.x",
-    "auth0-js": "^9.8.x"
+    "react": "16.x.x",
+    "auth0-js": "^9.x.x"
   },
   "devDependencies": {
-    "nwb": "0.23.x",
+    "nwb": "^0.23.0",
     "react": "^16.6.0",
     "react-dom": "^16.6.0",
     "auth0-js": "^9.8.1",
@@ -44,5 +44,8 @@
   "bugs": {
     "url": "https://github.com/rhnorskov/react-auth0/issues"
   },
-  "homepage": "https://github.com/rhnorskov/react-auth0#readme"
+  "homepage": "https://github.com/rhnorskov/react-auth0#readme",
+  "dependencies": {
+    "prop-types": "^15.6.2"
+  }
 }

@@ -1,35 +1,24 @@
 import React from "react";
 import Context from "./Context";
-import Auth0 from "./Auth0";
 
-class Provider extends React.Component {
+class Provider extends React.PureComponent {
   state = {
-    value: {
-      webAuth: this.props.webAuth,
-      isAuthenticated: Auth0.isAuthenticated(),
-      verifyAuthentication: () => {
-        const isAuthenticated = Auth0.isAuthenticated();
+    webAuth: this.props.webAuth,
+    authenticated: false,
+    verifyAuthentication: () => {
+      console.log("verify");
+      let expiresAt = Number(localStorage.getItem("expires_at"));
 
-        if (isAuthenticated !== this.state.value.isAuthenticated) {
-          this.setState({
-            value: {
-              ...this.state.value,
-              isAuthenticated
-            }
-          });
-        }
-
-        return isAuthenticated;
-      }
+      return new Date().getTime() < expiresAt;
     }
   };
 
   render() {
-    const { children } = this.props;
-    const { isAuthenticated } = this.state;
-
+    console.log("authenticated", this.state.authenticated);
     return (
-      <Context.Provider value={this.state.value}>{children}</Context.Provider>
+      <Context.Provider value={this.state}>
+        {this.props.children}
+      </Context.Provider>
     );
   }
 }
