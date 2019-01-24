@@ -6,7 +6,6 @@ class Provider extends React.PureComponent {
     webAuth: this.props.webAuth,
     authenticated: false,
     verifyAuthentication: () => {
-      console.log("verify");
       let expiresAt = Number(localStorage.getItem("expires_at"));
 
       return new Date().getTime() < expiresAt;
@@ -14,7 +13,6 @@ class Provider extends React.PureComponent {
   };
 
   render() {
-    console.log("authenticated", this.state.authenticated);
     return (
       <Context.Provider value={this.state}>
         {this.props.children}
