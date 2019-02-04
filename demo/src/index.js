@@ -8,15 +8,15 @@ import {
   Link
 } from "react-router-dom";
 import { Formik, Form, Field } from "formik";
-import auth0 from "auth0-js";
+// import auth0 from "auth0-js";
 import { Provider as Auth0, Consumer, Handler } from "../../src";
-
-const webAuth = new auth0.WebAuth({
-  domain: "rhnorskov.eu.auth0.com",
-  clientID: "WDhMo3ho4scpQtLT6q6qg0BCwaM0nmR_",
-  redirectUri: "https://localhost:3000/callback",
-  responseType: "token"
-});
+import config from "../../auth0_config.json";
+// const webAuth = new auth0.WebAuth({
+//   domain: "rhnorskov.eu.auth0.com",
+//   clientID: "WDhMo3ho4scpQtLT6q6qg0BCwaM0nmR_",
+//   redirectUri: "https://localhost:3000/callback",
+//   responseType: "token"
+// });
 
 const Demo = () => (
   <Switch>
@@ -25,7 +25,7 @@ const Demo = () => (
     <Route path="/signup" component={SignUp} />
     <Route path="/signin" component={SignIn} />
     <Route path="/signout" component={SignOut} />
-    <Route
+    {/* <Route
       path="/callback"
       render={({ location: { state } }) => (
         <Handler>
@@ -41,7 +41,9 @@ const Demo = () => (
           }}
         </Handler>
       )}
-    />
+    /> */}
+
+    <Route path="/callback" component={Callback} />
   </Switch>
 );
 
@@ -66,14 +68,10 @@ const Navigation = () => (
 );
 
 const Home = () => (
-  <Consumer>
-    {({ authenticated }) => (
-      <div>
-        <h1>Home</h1>
-        <Navigation />
-      </div>
-    )}
-  </Consumer>
+  <div>
+    <h1>Home</h1>
+    <Navigation />
+  </div>
 );
 
 const Account = () => (
@@ -130,7 +128,7 @@ const SignIn = () => (
       if (authenticated) return <Redirect to="/account" />;
 
       const form = {
-        initialValues: { email: "", password: "" },
+        initialValues: { email: "rasmus@norskov.org", password: "rasmus1991" },
 
         onSubmit: ({ email, password }) => {
           signIn(email, password);
@@ -169,11 +167,22 @@ const SignOut = () => (
   </Consumer>
 );
 
+const Callback = ({ location: { state } }) => (
+  <Handler>
+    {(error, result) => {
+      if (error) return <Redirect to="/signin" />;
+      if (state !== undefined && "referrer" in state)
+        return <Redirect to={state.referrer} />;
+      return <Redirect to="/account" />;
+    }}
+  </Handler>
+);
+
 render(
-  <Auth0 webAuth={webAuth}>
-    <Router>
+  <Router>
+    <Auth0 config={config}>
       <Demo />
-    </Router>
-  </Auth0>,
+    </Auth0>
+  </Router>,
   document.querySelector("#demo")
 );
