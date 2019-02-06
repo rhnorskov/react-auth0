@@ -36,7 +36,9 @@ class Consumer extends React.Component {
       );
     });
 
-  signOut = () => {};
+  signOut = () => {
+    this.context.clearSession();
+  };
 
   authorize = (connection, options = {}) =>
     new Promise((resolve, reject) => {
@@ -54,16 +56,18 @@ class Consumer extends React.Component {
 
   render() {
     const api = {
-      signUp: this.signUp,
-      signIn: this.signIn,
+      // signUp: this.signUp,
+      // signIn: this.signIn,
       signOut: this.signOut
     };
 
-    Object.defineProperty(api, "authenticated", {
-      get: () => {
-        return this.context.isAuthenticated();
-      }
-    });
+    console.log("asd");
+
+    // Object.defineProperty(api, "authenticated", {
+    //   get: () => {
+    //     return this.context.isAuthenticated();
+    //   }
+    // });
 
     return this.props.children(api);
   }

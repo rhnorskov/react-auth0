@@ -51,6 +51,10 @@ class Auth {
     localStorage.removeItem("authenticated");
   }
 
+  isReady() {
+    return !!this.accessToken;
+  }
+
   isAuthenticated() {
     return new Date().getTime() < this.expiresAt;
   }
